@@ -1,0 +1,23 @@
+version: '3.6'
+
+services:
+  example-app:
+    container_name: app
+    restart: always
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - ${SERVER_PORT_DOCKER}:${SERVER_PORT_DOCKER}
+
+  example-mongo:
+    platform: linux/x86_64
+    container_name: example-mongo
+    image: mongo:4.4.6 # v5+ has issue w/ apple silicon
+    ports:
+      - '27017:27017'
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGODB_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_ROOT_PASSWORD}
+      - MONGO_INITDB_DATABASE=${MONGODB_DATABASE}
